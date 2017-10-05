@@ -208,6 +208,25 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4E4213FA1F85430E00377045 /* ether_unix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ether_unix.cpp; path = ../Unix/ether_unix.cpp; sourceTree = "<group>"; };
+		4E42142E1F854B1700377045 /* bootp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bootp.c; path = ../../slirp/bootp.c; sourceTree = "<group>"; };
+		4E4214301F854B2C00377045 /* ip_output.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ip_output.c; path = ../../slirp/ip_output.c; sourceTree = "<group>"; };
+		4E4214321F854BB100377045 /* tcp_timer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tcp_timer.c; path = ../../slirp/tcp_timer.c; sourceTree = "<group>"; };
+		4E4214331F854BB100377045 /* tcp_input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tcp_input.c; path = ../../slirp/tcp_input.c; sourceTree = "<group>"; };
+		4E4214341F854BB200377045 /* debug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = debug.c; path = ../../slirp/debug.c; sourceTree = "<group>"; };
+		4E4214351F854BB200377045 /* tcp_subr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tcp_subr.c; path = ../../slirp/tcp_subr.c; sourceTree = "<group>"; };
+		4E4214361F854BB200377045 /* cksum.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cksum.c; path = ../../slirp/cksum.c; sourceTree = "<group>"; };
+		4E4214371F854BB200377045 /* ip_input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ip_input.c; path = ../../slirp/ip_input.c; sourceTree = "<group>"; };
+		4E4214381F854BB200377045 /* socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = socket.c; path = ../../slirp/socket.c; sourceTree = "<group>"; };
+		4E4214391F854BB200377045 /* udp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = udp.c; path = ../../slirp/udp.c; sourceTree = "<group>"; };
+		4E42143A1F854BB200377045 /* sbuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sbuf.c; path = ../../slirp/sbuf.c; sourceTree = "<group>"; };
+		4E42143B1F854BB200377045 /* mbuf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mbuf.c; path = ../../slirp/mbuf.c; sourceTree = "<group>"; };
+		4E42143C1F854BB200377045 /* tcp_output.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tcp_output.c; path = ../../slirp/tcp_output.c; sourceTree = "<group>"; };
+		4E42143D1F854BB200377045 /* misc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = misc.c; path = ../../slirp/misc.c; sourceTree = "<group>"; };
+		4E42143E1F854BB300377045 /* if.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = if.c; path = ../../slirp/if.c; sourceTree = "<group>"; };
+		4E42143F1F854BB300377045 /* tftp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tftp.c; path = ../../slirp/tftp.c; sourceTree = "<group>"; };
+		4E4214401F854BB300377045 /* slirp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = slirp.c; path = ../../slirp/slirp.c; sourceTree = "<group>"; };
+		4E4214411F854BB300377045 /* ip_icmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ip_icmp.c; path = ../../slirp/ip_icmp.c; sourceTree = "<group>"; };
 		752F26F81F240E51001032B4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		752F26FA1F240E69001032B4 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		752F27001F242BAF001032B4 /* prefs_sdl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = prefs_sdl.cpp; sourceTree = "<group>"; };
@@ -409,6 +428,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E4214031F85448200377045 /* slirp */ = {
+			isa = PBXGroup;
+			children = (
+				4E4214301F854B2C00377045 /* ip_output.c */,
+				4E4214361F854BB200377045 /* cksum.c */,
+				4E4214341F854BB200377045 /* debug.c */,
+				4E42143E1F854BB300377045 /* if.c */,
+				4E4214411F854BB300377045 /* ip_icmp.c */,
+				4E4214371F854BB200377045 /* ip_input.c */,
+				4E42143B1F854BB200377045 /* mbuf.c */,
+				4E42143D1F854BB200377045 /* misc.c */,
+				4E42143A1F854BB200377045 /* sbuf.c */,
+				4E4214401F854BB300377045 /* slirp.c */,
+				4E4214381F854BB200377045 /* socket.c */,
+				4E4214331F854BB100377045 /* tcp_input.c */,
+				4E42143C1F854BB200377045 /* tcp_output.c */,
+				4E4214351F854BB200377045 /* tcp_subr.c */,
+				4E4214321F854BB100377045 /* tcp_timer.c */,
+				4E42143F1F854BB300377045 /* tftp.c */,
+				4E4214391F854BB200377045 /* udp.c */,
+				4E42142E1F854B1700377045 /* bootp.c */,
+			);
+			path = slirp;
+			sourceTree = "<group>";
+		};
 		752F26F71F240E51001032B4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -653,6 +697,7 @@
 		7539E1E41F23B25E006B2DF2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				4E4214031F85448200377045 /* slirp */,
 				7539DFC91F23B25A006B2DF2 /* adb.cpp */,
 				7539DFCA1F23B25A006B2DF2 /* audio.cpp */,
 				7539DFCB1F23B25A006B2DF2 /* cdrom.cpp */,
@@ -661,6 +706,7 @@
 				7539E2811F23C52C006B2DF2 /* dummy */,
 				7539DFD51F23B25A006B2DF2 /* emul_op.cpp */,
 				7539DFD61F23B25A006B2DF2 /* ether.cpp */,
+				4E4213FA1F85430E00377045 /* ether_unix.cpp */,
 				7539DFD71F23B25A006B2DF2 /* extfs.cpp */,
 				7539DFD81F23B25A006B2DF2 /* include */,
 				7539DFF81F23B25A006B2DF2 /* macos_util.cpp */,
@@ -1201,6 +1247,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1258,6 +1305,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -1310,6 +1358,7 @@
 		7539DFC71F23B17E006B2DF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1317,16 +1366,28 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_USE_STANDARD_INCLUDE_SEARCHING = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/SDL2.framework/Headers",
+					../MacOSX,
+					../include,
+					../uae_cpu,
+					../UNIX,
+					../slirp,
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.basiliskii.BasiliskII;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = "-Wconversion";
 			};
 			name = Debug;
 		};
 		7539DFC81F23B17E006B2DF2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1334,10 +1395,21 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_USE_STANDARD_INCLUDE_SEARCHING = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(BUILT_PRODUCTS_DIR)/SDL2.framework/Headers",
+					../MacOSX,
+					../include,
+					../uae_cpu,
+					../UNIX,
+					../slirp,
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.basiliskii.BasiliskII;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				WARNING_CFLAGS = "-Wconversion";
 			};
 			name = Release;
 		};
