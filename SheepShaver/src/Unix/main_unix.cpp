@@ -124,6 +124,7 @@
 
 #ifdef USE_SDL
 #include <SDL.h>
+#include <string>
 #endif
 
 #ifndef USE_SDL_VIDEO
@@ -669,6 +670,9 @@ static bool install_signal_handlers(void)
 }
 
 #ifdef USE_SDL
+
+static std::string sdl_vmdir;
+
 static bool init_sdl()
 {
 	int sdl_flags = 0;
@@ -695,6 +699,19 @@ static bool init_sdl()
 		return false;
 	}
 	atexit(SDL_Quit);
+
+#if SDL_VERSION_ATLEAST(2,0,0)
+	const int SDL_EVENT_TIMEOUT = 100;
+	for (int i = 0; i < SDL_EVENT_TIMEOUT; i++) {
+		SDL_Event event;
+		SDL_PollEvent(&event);
+		if (event.type == SDL_DROPFILE) {
+			sdl_vmdir = event.drop.file;
+			break;
+		}
+		SDL_Delay(1);
+	}
+#endif
 
 	// Don't let SDL catch SIGINT and SIGTERM signals
 	signal(SIGINT, SIG_DFL);
@@ -728,6 +745,27 @@ int main(int argc, char **argv)
 #endif
 #endif
 
+#if __MACOSX__
+	extern void set_current_directory();
+	set_current_directory();
+#endif
+	
+#ifdef USE_SDL
+	// Initialize SDL system
+	if (!init_sdl())
+		goto quit;
+#if SDL_VERSION_ATLEAST(2,0,0)
+	if (valid_vmdir(sdl_vmdir.c_str())) {
+		vmdir = sdl_vmdir.c_str();
+		printf("Using %s as vmdir.\n", vmdir);
+		if (chdir(vmdir)) {
+			printf("Failed to chdir to %s. Good bye.", vmdir);
+			exit(1);
+		}
+	}
+#endif
+#endif
+	
 	// Parse command line arguments
 	
 #if defined(__APPLE__) && defined(__MACH__)
@@ -807,6 +845,17 @@ int main(int argc, char **argv)
 	// Read preferences
 	PrefsInit(vmdir, argc, argv);
 
+#if __MACOSX__ && SDL_VERSION_ATLEAST(2,0,0)
+	// On Mac OS X hosts, SDL2 will create its own menu bar.  This is mostly OK,
+	// except that it will also install keyboard shortcuts, such as Command + Q,
+	// which can interfere with keyboard shortcuts in the guest OS.
+	//
+	// HACK: disable these shortcuts, while leaving all other pieces of SDL2's
+	// menu bar in-place.
+	extern void disable_SDL2_macosx_menu_bar_keyboard_shortcuts();
+	disable_SDL2_macosx_menu_bar_keyboard_shortcuts();
+#endif
+	
 	// Any command line arguments left?
 	for (int i=1; i<argc; i++) {
 		if (argv[i][0] == '-') {
@@ -814,12 +863,6 @@ int main(int argc, char **argv)
 			usage(argv[0]);
 		}
 	}
-
-#ifdef USE_SDL
-	// Initialize SDL system
-	if (!init_sdl())
-		goto quit;
-#endif
 
 #ifndef USE_SDL_VIDEO
 	// Open display

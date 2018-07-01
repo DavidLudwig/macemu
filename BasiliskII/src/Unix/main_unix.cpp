@@ -525,7 +525,7 @@ int main(int argc, char **argv)
 	}
 	atexit(SDL_Quit);
 
-#if __MACOSX__
+#if __MACOSX__ && SDL_VERSION_ATLEAST(2,0,0)
 	// On Mac OS X hosts, SDL2 will create its own menu bar.  This is mostly OK,
 	// except that it will also install keyboard shortcuts, such as Command + Q,
 	// which can interfere with keyboard shortcuts in the guest OS.
@@ -648,6 +648,11 @@ int main(int argc, char **argv)
 	D(bug("Mac RAM starts at %p (%08x)\n", RAMBaseHost, RAMBaseMac));
 	D(bug("Mac ROM starts at %p (%08x)\n", ROMBaseHost, ROMBaseMac));
 	
+#if __MACOSX__
+	extern void set_current_directory();
+	set_current_directory();
+#endif
+
 	// Get rom file path from preferences
 	const char *rom_path = PrefsFindString("rom");
 

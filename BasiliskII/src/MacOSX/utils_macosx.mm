@@ -34,6 +34,8 @@ void NSAutoReleasePool_wrap(void (*fn)(void))
 	[pool release];
 }
 
+#if SDL_VERSION_ATLEAST(2,0,0)
+
 void disable_SDL2_macosx_menu_bar_keyboard_shortcuts() {
 	for (NSMenuItem * menu_item in [NSApp mainMenu].itemArray) {
 		if (menu_item.hasSubmenu) {
@@ -45,7 +47,6 @@ void disable_SDL2_macosx_menu_bar_keyboard_shortcuts() {
 	}
 }
 
-#if SDL_VERSION_ATLEAST(2,0,0)
 bool is_fullscreen_osx(SDL_Window * window)
 {
 	if (!window) {
@@ -67,3 +68,11 @@ void set_menu_bar_visible_osx(bool visible)
 {
 	[NSMenu setMenuBarVisible:(visible ? YES : NO)];
 }
+
+void set_current_directory()
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	chdir([[[[NSBundle mainBundle] bundlePath] stringByDeletingLastPathComponent] UTF8String]);
+	[pool release];
+}
+

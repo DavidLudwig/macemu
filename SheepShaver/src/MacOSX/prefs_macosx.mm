@@ -30,6 +30,7 @@
 #include <Cocoa/Cocoa.h>
 #include "VMSettingsController.h"
 
+#include <SDL.h>
 
 @interface SheepShaverMain : NSObject
 {
@@ -96,6 +97,11 @@
 	[pool release];
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	return YES;
+}
+
 @end
 
 /*
@@ -104,11 +110,18 @@
 
 void prefs_init(void)
 {
-	NSAutoreleasePool *pool;
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+#if SDL_VERSION_ATLEAST(2,0,0)
+	for (NSMenuItem *sub_item in [NSApp mainMenu].itemArray[0].submenu.itemArray) {
+		if ([sub_item.title isEqualToString:@"Preferences…"]) {
+			sub_item.target = [[SheepShaverMain alloc] init];
+			sub_item.action = @selector(openPreferences:);
+			break;
+		}
+	}
+#else
 	NSMenu *appMenu;
 	NSMenuItem *menuItem;
-
-	pool = [[NSAutoreleasePool alloc] init];
 
 	appMenu = [[[NSApp mainMenu] itemAtIndex:0] submenu];
 	menuItem = [[NSMenuItem alloc] initWithTitle:@"Preferences..." action:@selector(openPreferences:) keyEquivalent:@","];
@@ -118,6 +131,7 @@ void prefs_init(void)
 	
 	[NSApp setDelegate:[[SheepShaverMain alloc] init]];
 
+#endif
 	[pool release];
 }
 

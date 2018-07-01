@@ -719,11 +719,11 @@ static SDL_Surface * init_sdl_video(int width, int height, int bpp, Uint32 flags
 	
 	// Apply anti-aliasing, if and when appropriate (usually in fullscreen)
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-
+/*
 	// Always use a resize-able window.  This helps allow SDL to manage
 	// transitions involving fullscreen to or from windowed-mode.
 	window_flags |= SDL_WINDOW_RESIZABLE;
-	
+*/
 	if (!sdl_window) {
 		sdl_window = SDL_CreateWindow(
 			"Basilisk II",
@@ -737,6 +737,7 @@ static SDL_Surface * init_sdl_video(int width, int height, int bpp, Uint32 flags
 			return NULL;
 		}
 	}
+	if (flags & SDL_WINDOW_FULLSCREEN) SDL_SetWindowGrab(sdl_window, SDL_TRUE);
 	
 	// Some SDL events (regarding some native-window events), need processing
 	// as they are generated.  SDL2 has a facility, SDL_AddEventWatch(), which
@@ -842,6 +843,8 @@ static SDL_Surface * init_sdl_video(int width, int height, int bpp, Uint32 flags
 
 static int present_sdl_video()
 {
+	if (SDL_RectEmpty(&sdl_update_video_rect)) return 0;
+	
 	if (!sdl_renderer || !sdl_texture || !guest_surface) {
 		printf("WARNING: A video mode does not appear to have been set.\n");
 		return -1;
@@ -872,7 +875,10 @@ static int present_sdl_video()
 		guest_surface != NULL)
 	{
 		SDL_Rect destRect = sdl_update_video_rect;
-		if (SDL_BlitSurface(guest_surface, &sdl_update_video_rect, host_surface, &destRect) != 0) {
+		LOCK_PALETTE;
+		int result = SDL_BlitSurface(guest_surface, &sdl_update_video_rect, host_surface, &destRect);
+		UNLOCK_PALETTE;
+		if (result != 0) {
             SDL_UnlockMutex(sdl_update_video_mutex);
 			return -1;
 		}
@@ -1010,6 +1016,13 @@ void driver_base::adapt_to_video_mode() {
 	if (private_data)
 		private_data->cursorHardware = hardware_cursor;
 #endif
+	SDL_LockMutex(sdl_update_video_mutex);
+	sdl_update_video_rect.x = 0;
+	sdl_update_video_rect.y = 0;
+	sdl_update_video_rect.w = VIDEO_MODE_X;
+	sdl_update_video_rect.h = VIDEO_MODE_Y;
+	SDL_UnlockMutex(sdl_update_video_mutex);
+	
 	// Hide cursor
 	SDL_ShowCursor(hardware_cursor);
 
@@ -1071,6 +1084,12 @@ void driver_base::update_palette(void)
 
 	if ((int)VIDEO_MODE_DEPTH <= VIDEO_DEPTH_8BIT) {
 		SDL_SetSurfacePalette(s, sdl_palette);
+		SDL_LockMutex(sdl_update_video_mutex);
+		sdl_update_video_rect.x = 0;
+		sdl_update_video_rect.y = 0;
+		sdl_update_video_rect.w = VIDEO_MODE_X;
+		sdl_update_video_rect.h = VIDEO_MODE_Y;
+		SDL_UnlockMutex(sdl_update_video_mutex);
 	}
 }
 
@@ -1528,9 +1547,13 @@ static void do_toggle_fullscreen(void)
 		if (display_type == DISPLAY_SCREEN) {
 			display_type = DISPLAY_WINDOW;
 			SDL_SetWindowFullscreen(sdl_window, 0);
+			const VIDEO_MODE &mode = drv->mode;
+			SDL_SetWindowSize(sdl_window, VIDEO_MODE_X, VIDEO_MODE_Y);
+			SDL_SetWindowGrab(sdl_window, SDL_FALSE);
 		} else {
 			display_type = DISPLAY_SCREEN;
 			SDL_SetWindowFullscreen(sdl_window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+			SDL_SetWindowGrab(sdl_window, SDL_TRUE);
 		}
 	}
 
